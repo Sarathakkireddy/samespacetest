@@ -2,7 +2,7 @@
     "tables":[
         {
             "tablename":"users",
-            "schema":[{"name":"uname","type":"VARCHAR(30)","attributes":[]},{"name":"pass","type":"VARCHAR(20)","attributes":["NOT NULL"]},{"name":"fname","type":"VARCHAR(50)","attributes":["NOT NULL"]}]
+            "schema":[{"name":"id","type":"INT","attributes":["PRIMARY KEY"]},{"name":"uname","type":"VARCHAR(30)","attributes":[]},{"name":"pass","type":"VARCHAR(20)","attributes":["NOT NULL"]},{"name":"fname","type":"VARCHAR(50)","attributes":["NOT NULL"]}]
         }
     ]
 }

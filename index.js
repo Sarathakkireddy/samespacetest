@@ -86,7 +86,6 @@ connection.connect((err) => {
                     for (let i = 0; i < table.schema.length; i++) {
                       if (!rowset.has(table.schema[i].name)) {
                         let qry =querybuild(table,i);
-                        console.log(qry);
                         connection.query(
                           `ALTER TABLE ${table.tablename} ADD ${qry} `,
                           (error, rowss, feildss) => {
@@ -183,7 +182,53 @@ connection.connect((err) => {
   }
 });
 
-app.post("/:collection");
+app.post("/:collection",(req,res)=>{
+  connection.query(`INSERT INTO ${req.params.collection} VALUES (${req.body.data})`,(err,rows,fields)=>{
+    if(err){
+      res.status(400).json(err);
+    }else{ 
+      res.status(200).json(rows);
+    }
+  })
+});
+app.get("/:collection",(req,res)=>{
+  connection.query(`SELECT * FROM ${req.params.collection}`,(err,rows,fields)=>{
+    if(err){
+      res.status(400).json(err);
+    }else{
+      res.status(200).json(rows);
+    }
+  })
+});
+app.delete("/:collection/:id",(req,res)=>{
+  connection.query(`DELETE FROM ${req.params.collection} WHERE id=${req.params.id}`,(err,rows,fields)=>{
+    if(err){
+      res.status(400).json(err);
+    }else{
+      res.status(200).json(rows);
+    }
+  })
+});
+
+app.get("/:collection/:id",(req,res)=>{
+  connection.query(`SELECT * FROM ${req.params.collection} WHERE id=${req.params.id}`,(err,rows,fields)=>{
+    if(err){
+      res.status(400).json(err);
+    }else{
+      res.status(200).json(rows);
+    }
+  })
+});
+app.post("/:collection/:id",(req,res)=>{
+  connection.query(`UPDATE ${req.params.collection} SET ${req.body.data.map((ele)=>{return `${ele.name}= "${ele.value}"` })} WHERE id=${req.params.id}`,(err,rows,fields)=>{
+    if(err){
+      res.status(400).json(err);
+    }else{
+      res.status(200).json(rows);
+    }
+  });
+ 
+});
 
 app.listen(port, () => {
   console.log(`Server started on port ${port}...`);
